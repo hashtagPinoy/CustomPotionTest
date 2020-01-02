@@ -1,0 +1,30 @@
+package me.hashtagpinoy.simplevanish;
+
+import me.hashtagpinoy.simplevanish.commands.STDPotion;
+import me.hashtagpinoy.simplevanish.commands.VanishCommand;
+import me.hashtagpinoy.simplevanish.events.PlayerJoin;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public final class SimpleVanish extends JavaPlugin {
+
+    @Override
+    public void onEnable() {
+        // Plugin startup logic
+        getCommand("vanish").setExecutor(new VanishCommand(this));
+        getCommand("stdpotion").setExecutor(new STDPotion(this));
+
+        getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
+    }
+
+    public ArrayList<Player> vanish_list = new ArrayList<>();
+
+
+    @Override
+    public void onDisable() {
+        // Plugin shutdown logic
+    }
+}
