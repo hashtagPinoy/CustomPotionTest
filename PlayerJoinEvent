@@ -1,0 +1,25 @@
+package me.hashtagpinoy.simplevanish.events;
+
+import me.hashtagpinoy.simplevanish.SimpleVanish;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+
+public class PlayerJoin implements Listener {
+
+    SimpleVanish plugin;
+
+    public PlayerJoin(SimpleVanish plugin) {
+        this.plugin = plugin;
+    }
+
+    @EventHandler
+    public void PlayerJoin (PlayerJoinEvent e){
+        Player player = e.getPlayer();
+        for(int i = 0; i < plugin.vanish_list.size(); i++ ){
+            player.hidePlayer(plugin, plugin.vanish_list.get(i));
+        }
+    }
+
+}
