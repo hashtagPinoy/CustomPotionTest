@@ -1,0 +1,54 @@
+package me.hashtagpinoy.simplevanish.commands;
+
+import me.hashtagpinoy.simplevanish.SimpleVanish;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+public class VanishCommand implements CommandExecutor{
+
+    SimpleVanish plugin;
+
+
+    public VanishCommand(SimpleVanish plugin) {
+        this.plugin = plugin;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        if (sender instanceof Player){
+            Player player = (Player)sender;
+
+            if(plugin.vanish_list.contains(player)){
+                for(Player people : Bukkit.getOnlinePlayers()){
+                    people.showPlayer(plugin, player);
+                }
+                plugin.vanish_list.remove(player);
+                player.sendMessage("You are now visible to the server!");
+                Bukkit.broadcastMessage(player.getName() + " has joined the server!");
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
+
+            }else if(!plugin.vanish_list.contains(player)){
+                //Loops thru everyone on the server and hides you from them
+                for(Player people : Bukkit.getOnlinePlayers()){
+                    people.hidePlayer(plugin, player);
+                }
+
+                plugin.vanish_list.add(player);
+                player.sendMessage("You are now invisible to the server!");
+                Bukkit.broadcastMessage(player.getDisplayName() + " has left the server!");
+                ((Player) sender).addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 200000, 255, true, false));
+            }
+        }
+
+
+
+
+        return true;
+    }
+}
