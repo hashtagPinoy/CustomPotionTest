@@ -1,0 +1,53 @@
+package me.hashtagpinoy.simplevanish.commands;
+
+import me.hashtagpinoy.simplevanish.SimpleVanish;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class STDPotion implements CommandExecutor{
+
+    SimpleVanish plugin;
+
+    public STDPotion(SimpleVanish plugin) {
+        this.plugin = plugin;
+    }
+
+
+
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if(sender instanceof Player){
+            List<String> STDLore = new ArrayList<String>();
+            STDLore.add("§4Weaponized chlamydia");
+
+            String STDName = "§d§lWeaponized Chlamydia";
+
+            Player player = (Player)sender;
+            ItemStack stdpotion = new ItemStack(Material.SPLASH_POTION);
+            PotionMeta meta = (PotionMeta) stdpotion.getItemMeta();
+            meta.addCustomEffect(new PotionEffect(PotionEffectType.WEAKNESS, 2400, 1), false);
+            meta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, 1200, 1), false);
+            meta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 1, 0), false);
+            meta.setColor(Color.MAROON);
+            meta.setLore(STDLore);
+            meta.setDisplayName(STDName);
+            stdpotion.setItemMeta(meta);
+
+            player.getInventory().addItem(stdpotion);
+        }
+
+        return true;
+    }
+}
